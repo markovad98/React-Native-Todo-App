@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 
-const AddTodo = ({ AddTodo }) => {
+const AddTodo = ({ addTodo, clearTodos }) => {
+    const [text, setText] = useState('');
+
+    const handleAddTodo = () => {
+        if (text.trim()) {
+            addTodo(text);
+            setText('');
+        }
+    };
+
     return (
         <View style={style.container}>
-            <TextInput style={style.input} />
-            <Button style={style.button} title='Add todo' />
+            <TextInput value={text} onChangeText={setText} style={style.input} />
+            <Button onPress={handleAddTodo} style={style.button} title='Add todo' />
+            <Button onPress={clearTodos} title='Delete todos' />
         </View>
     );
 };
@@ -16,6 +26,7 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 10,
+        flexWrap: 'wrap',
     },
     input: {
         backgroundColor: 'white',
